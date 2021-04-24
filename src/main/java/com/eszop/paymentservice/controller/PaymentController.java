@@ -1,9 +1,9 @@
 package com.eszop.paymentservice.controller;
 
 import com.eszop.paymentservice.dto.PaymentDTO;
-import com.eszop.paymentservice.dto.PaymentDTOMapper;
 import com.eszop.paymentservice.entity.Payment;
 import com.eszop.paymentservice.repository.PaymentRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,10 +19,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/payment")
 public class PaymentController {
-
-//    @Autowired
-//    PaymentRepository repository;
     private final PaymentRepository repository;
+    private final ModelMapper modelMapper = new ModelMapper();
 
     public PaymentController(PaymentRepository repository) {
         this.repository = repository;
@@ -31,19 +29,18 @@ public class PaymentController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void createPayment(@RequestBody PaymentDTO paymentDTO) {
-        repository.save(PaymentDTOMapper.map(paymentDTO));
+        repository.save(modelMapper.map(paymentDTO, Payment.class));
     }
 
     // TODO: 19.04.2021 for tests only
     @GetMapping
     public List<PaymentDTO> getAllPayments() {
-        return repository.findAll().stream().map(PaymentDTOMapper::map).collect(Collectors.toList());
+        return repository.findAll().stream().map(p -> modelMapper.map(p, PaymentDTO.class)).collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
     public PaymentDTO getPayment(@PathVariable Long id) {
-        Payment payment = repository.getOne(id);
-        return PaymentDTOMapper.map(payment);
+        return modelMapper.map(repository.getOne(id), PaymentDTO.class);
     }
 
     @PostMapping("/{id}")
