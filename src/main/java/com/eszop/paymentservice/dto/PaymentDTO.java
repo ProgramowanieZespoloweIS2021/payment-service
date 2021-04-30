@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
@@ -15,7 +16,7 @@ public class PaymentDTO {
 
     private Long userId;
 
-    private Double price;
+    private BigDecimal price;
 
     private LocalDateTime updateTime;
 
