@@ -34,7 +34,7 @@ Example body:
 ```
 
 
-* Get paymet
+* Get payment
   
 GET http://localhost:8085/payments/<payment_id>
 
