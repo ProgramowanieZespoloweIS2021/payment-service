@@ -1,6 +1,6 @@
 ![CI/CD](https://github.com/ProgramowanieZespoloweIS2021/payment-service/actions/workflows/ci.yml/badge.svg)
 
-[![codecov](https://codecov.io/gh/ProgramowanieZespoloweIS2021/payment-service/branch/main/graph/badge.svg?token=72ef252b-f568-4b28-b4b1-88db3c91452f)](https://codecov.io/gh/ProgramowanieZespoloweIS2021/payment-service)
+[![codecov](https://codecov.io/gh/ProgramowanieZespoloweIS2021/payment-service/branch/develop/graph/badge.svg?token=AQT3LMTG5F)](https://codecov.io/gh/ProgramowanieZespoloweIS2021/payment-service)
 
 
 ### USAGE
