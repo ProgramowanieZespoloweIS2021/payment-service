@@ -4,6 +4,7 @@ import com.eszop.paymentservice.dto.PaymentDTO;
 import com.eszop.paymentservice.entity.Payment;
 import com.eszop.paymentservice.service.PaymentService;
 import org.modelmapper.ModelMapper;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/payments")
@@ -28,8 +32,10 @@ public class PaymentController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void createPayment(@RequestBody PaymentDTO paymentDTO) {
-        service.save(modelMapper.map(paymentDTO, Payment.class));
+    public PaymentDTO createPayment(@RequestBody PaymentDTO paymentDTO) {
+        Payment payment = service.save(modelMapper.map(paymentDTO, Payment.class));
+        PaymentDTO newPaymentDTO = modelMapper.map(payment, PaymentDTO.class);
+        return addLinkToPaymentDTO(newPaymentDTO, newPaymentDTO.getId());
     }
 
     // TODO: 19.04.2021 for tests only
@@ -40,7 +46,8 @@ public class PaymentController {
 
     @GetMapping("/{id}")
     public PaymentDTO getPayment(@PathVariable Long id) {
-        return modelMapper.map(service.findById(id), PaymentDTO.class);
+        PaymentDTO newPaymentDTO = modelMapper.map(service.findById(id), PaymentDTO.class);
+        return addLinkToPaymentDTO(newPaymentDTO, id);
     }
 
     @PostMapping("/{id}")
@@ -48,5 +55,10 @@ public class PaymentController {
         Payment payment = service.findById(id);
         payment.setStatus(paymentDTO.getStatus());
         service.save(payment);
+    }
+
+    private PaymentDTO addLinkToPaymentDTO(PaymentDTO paymentDTO, Long id) {
+        Link link = linkTo(methodOn(PaymentController.class).getPayment(id)).withSelfRel();
+        return paymentDTO.add(link);
     }
 }

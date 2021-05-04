@@ -15,8 +15,8 @@ public class PaymentService {
         this.repository = repository;
     }
 
-    public void save(Payment payment) {
-        repository.save(payment);
+    public Payment save(Payment payment) {
+        return repository.save(payment);
     }
 
     public List<Payment> findAll() {
