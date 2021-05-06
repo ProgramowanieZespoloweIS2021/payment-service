@@ -6,7 +6,7 @@
 ### USAGE
 * Add new payment 
   
-POST http://localhost:8085/payments
+POST http://localhost:8080/payments
 
 Example body: 
 ```
@@ -19,7 +19,7 @@ Example body:
 
 * Update payment
   
-POST http://localhost:8085/payments/<payment_id>
+POST http://localhost:8080/payments/<payment_id>
 
 Possible statuses:
 - IN_PROGRESS,
@@ -36,21 +36,48 @@ Example body:
 
 * Get payment
   
-GET http://localhost:8085/payments/<payment_id>
+GET http://localhost:8080/payments/<payment_id>
 
 Example response: 
 ```
 {
-    "id": 2,
+    "id": 4,
     "userId": 1,
-    "price": 200.30,
-    "updateTime": "2021-04-30T21:37:21.477438",
-    "createTime": "2021-04-30T21:37:21.477438",
+    "price": 2000.3,
+    "updateTime": "2021-05-06T19:19:57.9145519",
+    "createTime": "2021-05-06T19:19:57.9145519",
     "status": "IN_PROGRESS",
     "_links": {
         "self": {
-            "href": "http://localhost:8085/payments/2"
+            "href": "http://localhost:8080/payments/4"
+        },
+        "pay": {
+            "href": "http://localhost:8080/payments/4/pay"
         }
     }
+}
+```
+
+
+* Finalize payment 
+  
+POST http://localhost:8080/payments/<payment_id>/pay
+
+Example body: 
+```
+{
+    "email": "abc@gmail.com",
+    "name": "Jan",
+    "surname": "Kowalski",
+    "cartNumber": "1234567890123456",
+    "expirationDate": "21/05",
+    "codeCvv": "111"
+}
+```
+
+Example response
+```
+{
+    "message": "Insufficient funds"
 }
 ```
