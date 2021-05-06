@@ -65,7 +65,8 @@ public class PaymentController {
     }
 
     private PaymentDTO addLinkToPaymentDTO(PaymentDTO paymentDTO, Long id) {
-        Link link = linkTo(methodOn(PaymentController.class).getPayment(id)).withSelfRel();
-        return paymentDTO.add(link);
+        Link linkToSelf = linkTo(methodOn(PaymentController.class).getPayment(id)).withSelfRel();
+        Link linkToPay = linkTo(methodOn(PaymentController.class).pay(id, new AccountDTO())).withRel("pay");
+        return paymentDTO.add(linkToSelf, linkToPay);
     }
 }
