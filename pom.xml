@@ -13,9 +13,12 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>payment-service</name>
 	<description>The best payment service</description>
+	
 	<properties>
-		<java.version>11</java.version>
+		<java.version>16</java.version>
+    		<revision>0.0.1</revision>
 	</properties>
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
