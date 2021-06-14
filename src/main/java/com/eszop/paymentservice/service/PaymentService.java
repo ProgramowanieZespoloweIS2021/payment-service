@@ -19,8 +19,8 @@ public class PaymentService {
         return repository.save(payment);
     }
 
-    public List<Payment> findAll() {
-        return repository.findAll();
+    public List<Payment> findByUserId(Long userId) {
+        return repository.findByUserId(userId);
     }
 
     public Payment findById(Long id) {

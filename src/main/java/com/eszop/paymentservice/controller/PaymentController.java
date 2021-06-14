@@ -15,11 +15,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -49,6 +52,14 @@ public class PaymentController {
     public PaymentDTO getPayment(@PathVariable Long id) {
         PaymentDTO newPaymentDTO = modelMapper.map(paymentService.findById(id), PaymentDTO.class);
         return addLinkToPaymentDTO(newPaymentDTO, id);
+    }
+
+    @GetMapping
+    public List<PaymentDTO> getPayments(@RequestParam(name = "user_id") Long userId) {
+        return paymentService.findByUserId(userId).stream()
+                .map(p -> modelMapper.map(p, PaymentDTO.class))
+                .map(p -> addLinkToPaymentDTO(p, p.getId()))
+                .collect(Collectors.toList());
     }
 
     @PostMapping("/{id}")
