@@ -47,6 +47,10 @@ Example response:
     "updateTime": "2021-05-06T19:19:57.9145519",
     "createTime": "2021-05-06T19:19:57.9145519",
     "status": "IN_PROGRESS",
+    "offerTitles": [
+      "Example offer 1",
+      "Example offer 2"
+    ],
     "_links": {
         "self": {
             "href": "http://localhost:8080/payments/4"
