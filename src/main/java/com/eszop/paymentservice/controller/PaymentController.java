@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -59,6 +60,7 @@ public class PaymentController {
         return paymentService.findByUserId(userId).stream()
                 .map(p -> modelMapper.map(p, PaymentDTO.class))
                 .map(p -> addLinkToPaymentDTO(p, p.getId()))
+                .sorted(Comparator.comparing(PaymentDTO::getCreateTime).reversed())
                 .collect(Collectors.toList());
     }
 

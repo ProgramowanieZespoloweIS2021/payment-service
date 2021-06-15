@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
+import static com.eszop.paymentservice.entity.PaymentStatus.IN_PROGRESS;
+
 @Service
 public class AccountService {
     private final AccountRepository accountRepository;
@@ -21,17 +23,25 @@ public class AccountService {
 
     public String pay(Long paymentId, Account account) {
         Account foundAccount = accountRepository.findByEmail(account.getEmail());
+        Payment payment = paymentRepository.getOne(paymentId);
+        if (payment.getStatus() != IN_PROGRESS){
+            return "Payment has been finished or canceled";
+        }
         if (foundAccount != null) {
-            return changeBalance(foundAccount, paymentId);
+            if (foundAccount.equals(account)){
+                return changeBalance(foundAccount, payment);
+            }
+            else{
+                return "account data is invalid";
+            }
         } else {
             account.setBalance(new BigDecimal(1000));
-            return changeBalance(account, paymentId);
+            return changeBalance(account, payment);
         }
     }
 
-    private String changeBalance(Account account, Long paymentId) {
+    private String changeBalance(Account account, Payment payment) {
         BigDecimal balance = account.getBalance();
-        Payment payment = paymentRepository.getOne(paymentId);
         if (balance.compareTo(payment.getPrice()) >= 0) {
             balance = balance.subtract(payment.getPrice());
             account.setBalance(balance);
