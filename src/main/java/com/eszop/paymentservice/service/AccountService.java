@@ -28,7 +28,12 @@ public class AccountService {
             return "Payment has been finished or canceled";
         }
         if (foundAccount != null) {
-            return changeBalance(foundAccount, payment);
+            if (foundAccount.equals(account)){
+                return changeBalance(foundAccount, payment);
+            }
+            else{
+                return "account data is invalid";
+            }
         } else {
             account.setBalance(new BigDecimal(1000));
             return changeBalance(account, payment);
