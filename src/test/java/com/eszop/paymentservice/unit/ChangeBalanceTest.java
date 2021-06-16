@@ -12,6 +12,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -56,9 +58,8 @@ public class ChangeBalanceTest {
 
     @Test
     public void accountHasEnoughMoney() {
-        Account account = new Account();
-        account.setBalance(new BigDecimal("1000"));
-        Payment payment = new Payment();
+        Account account = new Account(1L,"mail",new BigDecimal("1000"),"x","y","123123123123","21/07","111");
+        Payment payment = new Payment(1L,1L,new BigDecimal("100"), LocalDateTime.now(), LocalDateTime.now(),PaymentStatus.IN_PROGRESS, List.of("title"));
         payment.setPrice(new BigDecimal("100"));
         Mockito.when(accountRepository.save(Mockito.any(Account.class))).thenReturn(account);
         Mockito.when(paymentRepository.save(Mockito.any(Payment.class))).thenReturn(payment);
