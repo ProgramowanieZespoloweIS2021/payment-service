@@ -40,9 +40,9 @@ public class AccountService {
         }
     }
 
-    private String changeBalance(Account account, Payment payment) {
+    public String changeBalance(Account account, Payment payment) {
         BigDecimal balance = account.getBalance();
-        if (balance.compareTo(payment.getPrice()) >= 0) {
+        if (balance.compareTo(payment.getPrice()) >= 0 && payment.getPrice().compareTo(new BigDecimal("0")) > 0) {
             balance = balance.subtract(payment.getPrice());
             account.setBalance(balance);
             payment.setStatus(PaymentStatus.FINISHED);
