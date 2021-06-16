@@ -114,9 +114,32 @@ Example body:
 }
 ```
 
-Example response
+Example response:
+* payment has been successful 
+```
+{
+    "message": "Balance was reduced by <price>"
+}
+```
+
+* not enough funds on existing account:
 ```
 {
     "message": "Insufficient funds"
 }
 ```
+
+* account data is invalid
+```
+{
+    "message": "account data is invalid"
+}
+```
+
+* If payment status is FINISHED or CANCELED you cannot pay multiple times
+```
+{
+    "message": "Payment has been finished or canceled"
+}
+```
+
